@@ -9,6 +9,7 @@ jobs:
   validate:
     uses: YCITC/shared-workflow/.github/workflows/pr-validation.yml@main
     with:
-      pull_request_json: ${{ toJson(github.event.pull_request) }}
+      pull_request_title: ${{ github.event.pull_request.title }}
+      pull_request_number: ${{ github.event.pull_request.number }}
       repo_owner: ${{ github.repository_owner }}
       repo_name: ${{ github.event.repository.name }}
