@@ -7,7 +7,7 @@ on:
 
 jobs:
   validate:
-    uses: YCITC/reuse-workflow-test/.github/workflows/pr-validation.yml@main
+    uses: YCITC/shared-workflow/.github/workflows/pr-validation.yml@main
     with:
       pull_request_json: ${{ toJson(github.event.pull_request) }}
       repo_owner: ${{ github.repository_owner }}
