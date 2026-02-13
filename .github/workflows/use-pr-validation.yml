@@ -7,6 +7,9 @@ on:
 
 jobs:
   validate:
+    permissions:
+      contents: read
+      pull-requests: write
     uses: YCITC/shared-workflow/.github/workflows/pr-validation.yml@main
     with:
       pull_request_title: ${{ github.event.pull_request.title }}
