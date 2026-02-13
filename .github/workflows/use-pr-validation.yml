@@ -6,9 +6,6 @@ on:
     types: [opened, synchronize, reopened, edited]
 
 jobs:
-  permissions:
-    actions: read
-    contents: read
   validate:
     uses: YCITC/shared-workflow/.github/workflows/pr-validation.yml@main
     with:
