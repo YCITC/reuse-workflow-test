@@ -13,3 +13,5 @@ jobs:
       pull_request_number: ${{ github.event.pull_request.number }}
       repo_owner: ${{ github.repository_owner }}
       repo_name: ${{ github.event.repository.name }}
+    secrets:
+      SHARED_WORKFLOW_TOKEN: ${{ secrets.SHARED_WORKFLOW_TOKEN }}
