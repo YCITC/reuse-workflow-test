@@ -47,7 +47,7 @@ jobs:
           prompt: |
             Review this pull request for code quality, correctness, and security. Analyze the diff, then post your findings as review comments. |
             When posting the PR comment, use `gh pr comment` with the `--body` flag directly. Do not write comment content to any temporary file first. |
-            Respond using a Chinese-English parallel translation format (請使用中英對照的方式回答)。
+            Respond using a Respond using a Traditional Chinese-English parallel translation format (請使用繁體中英對照的方式回答)。
           claude_args: "--max-turns 10 --model sonnet --allowed-tools Bash(gh pr *)"
 
       - name: Upload execution output
