@@ -1,0 +1,18 @@
+[project]
+name = "grafana-loki"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Tid Huang", email = "yesseecity@yahoo.com.tw" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.2.6",
+    "pandas>=2.3.3",
+    "requests>=2.33.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.2,<0.12.0"]
+build-backend = "uv_build"
