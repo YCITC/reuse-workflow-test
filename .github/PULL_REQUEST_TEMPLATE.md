@@ -74,3 +74,5 @@ Related to #
 **Note for Maintainers:**
 - Target branch should be `main-candidate` for normal PRs
 - Only merge to `main` for release preparation
+
+@claude
