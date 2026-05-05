@@ -57,7 +57,7 @@ jobs:
             The `position` is the line number in the unified diff, counting from the first `@@` hunk header (the hunk header line itself is position 1).
             Do not write comment content to any temporary file first.
             Respond using a Traditional Chinese-English parallel translation format (請使用繁體中英對照的方式回答)。
-          claude_args: "--max-turns 10 --model sonnet --allowed-tools Bash(gh pr *),Bash(gh api *)"
+          claude_args: "--max-turns 20 --model sonnet --allowed-tools Bash(gh pr *),Bash(gh api *)"
 
       - name: Upload execution output
         if: always()
