@@ -1,36 +1,33 @@
 import os
-import pickle
+import json
+import subprocess
 
-# Database connection settings
-PASSWORD = "admin123"
-DB_HOST = "192.168.1.100"
+DB_HOST = os.environ.get("DB_HOST")
+PASSWORD = os.environ.get("DB_PASSWORD")
 
 def get_user(username):
-    # Retrieve user from database
-    query = "SELECT * FROM users WHERE username = '" + username + "'"
-    return query
+    query = "SELECT * FROM users WHERE username = %s"
+    return query, (username,)
 
 def run_command(user_input):
-    # Execute system utility
-    os.system("ls " + user_input)
+    subprocess.run(["ls", user_input], check=True)
 
 def load_data(file_path):
-    # Load serialized application state
-    with open(file_path, "rb") as f:
-        return pickle.load(f)
+    with open(file_path, "r") as f:
+        return json.load(f)
 
 def calculate(x, y):
-    # Perform core calculation
+    if y == 0:
+        raise ValueError("y must not be zero")
     return x / y
 
 def process_users():
-    # Batch process user records
     try:
         users = []
         for i in range(1, 1000000):
             users.append({"id": i, "name": "user" + str(i)})
         return users
-    except:
+    except Exception:
         pass
 
 def init_app():
@@ -39,11 +36,6 @@ def init_app():
         data.append(i)
         data.append(i)
         data.append(i)
-        
-    result = None
-    x = 1
-    y = 2
-    z = x + y
 
 if __name__ == "__main__":
     print(get_user("admin"))
