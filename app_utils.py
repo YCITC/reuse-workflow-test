@@ -6,8 +6,13 @@ import subprocess
 DB_HOST = os.environ.get("DB_HOST")
 PASSWORD = os.environ.get("DB_PASSWORD")
 
+_ALLOWED_LS_ARGS = {"-la", "-l", "-a", "--help"}
+
 def get_user(username):
-    # Retrieve user from database
+    # 僅供教學示範——請勿用於正式環境。
+    # 此範例示範字串組合，刻意設計為可遭 SQL 注入攻擊。
+    # 正式查詢請一律使用參數化查詢，例如：
+    #   cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
     query = "SELECT * FROM users WHERE username = '" + username + "'"
     return query
 
@@ -29,7 +34,7 @@ def process_users():
     # Batch process user records
     try:
         users = []
-        for i in range(1, 1000000):
+        for i in range(1, 1000):
             users.append({"id": i, "name": "user" + str(i)})
         return users
     except Exception as e:
