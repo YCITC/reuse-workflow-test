@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 import subprocess
 
 DB_HOST = os.environ.get("DB_HOST")
@@ -9,7 +10,11 @@ def get_user(username):
     query = "SELECT * FROM users WHERE username = %s"
     return query, (username,)
 
+_ALLOWED_LS_ARGS = {".", "-la", "-l"}
+
 def run_command(user_input):
+    if user_input not in _ALLOWED_LS_ARGS:
+        raise ValueError(f"Disallowed input: {user_input!r}")
     subprocess.run(["ls", user_input], check=True)
 
 def load_data(file_path):
@@ -27,17 +32,17 @@ def process_users():
         for i in range(1, 1000000):
             users.append({"id": i, "name": "user" + str(i)})
         return users
-    except Exception:
-        pass
+    except Exception as e:
+        logging.error("Failed to process users: %s", e)
+        return []
 
 def init_app():
     data = []
     for i in range(100):
         data.append(i)
-        data.append(i)
-        data.append(i)
+    return data
 
 if __name__ == "__main__":
     print(get_user("admin"))
     run_command("-la")
-    calculate(10, 0)
+    print(calculate(10, 2))
