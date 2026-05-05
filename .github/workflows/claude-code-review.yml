@@ -2,7 +2,7 @@ name: Claude Code Review
 
 on:
   pull_request:
-    types: [opened, synchronize, ready_for_review, reopened]
+    types: [opened, ready_for_review, reopened]
     # Optional: Only run on specific file changes
     # paths:
     #   - "src/**/*.ts"
@@ -45,10 +45,19 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            Review this pull request for code quality, correctness, and security. Analyze the diff, then post your findings as review comments. |
-            When posting the PR comment, use `gh pr comment` with the `--body` flag directly. Do not write comment content to any temporary file first. |
-            Respond using a Respond using a Traditional Chinese-English parallel translation format (請使用繁體中英對照的方式回答)。
-          claude_args: "--max-turns 10 --model sonnet --allowed-tools Bash(gh pr *)"
+            Review this pull request for code quality, correctness, and security.
+            First, get the diff using `gh pr diff ${{ github.event.pull_request.number }}`.
+            For each issue found, post an inline review comment using `gh api`:
+            gh api repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/comments \
+              --method POST \
+              --field body='...' \
+              --field path='...' \
+              --field position=N \
+              --field commit_id='${{ github.event.pull_request.head.sha }}'
+            The `position` is the line number in the unified diff, counting from the first `@@` hunk header (the hunk header line itself is position 1).
+            Do not write comment content to any temporary file first.
+            Respond using a Traditional Chinese-English parallel translation format (請使用繁體中英對照的方式回答)。
+          claude_args: "--max-turns 10 --model sonnet --allowed-tools Bash(gh pr *),Bash(gh api *)"
 
       - name: Upload execution output
         if: always()
