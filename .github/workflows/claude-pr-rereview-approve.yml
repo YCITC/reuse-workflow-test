@@ -1,4 +1,4 @@
-name: Claude Code
+name: Claude PR Rereview Approve
 
 on:
   issue_comment:
@@ -42,15 +42,20 @@ jobs:
 
           # Optional: Give a custom prompt to Claude. If this is not specified, Claude will perform the instructions specified in the comment that tagged it.
           prompt: |
-            Re-review this pull request. Get the diff using `gh pr diff ${{ github.event.issue.number }}`.
-            - If there are issues: post inline comments using:
+            Re-review this pull request.
+            First, read existing PR comments for context using:
+            `gh pr view ${{ github.event.issue.number }} --comments`
+            Then get the diff using:
+            `gh pr diff ${{ github.event.issue.number }}`
+            Consider any justifications provided in the comments before flagging issues.
+            - If there are unresolved issues: post inline comments using:
               `gh api repos/$GITHUB_REPOSITORY/pulls/${{ github.event.issue.number }}/comments \
               --method POST \
               --field body='...' \
               --field path='...' \
               --field position=N \
               --field commit_id='...'`
-            - If no issues found: approve using `gh pr review ${{ github.event.issue.number }} --approve --body '...'`
+            - If no issues found (including intentional ones explained in comments): approve using `gh pr review ${{ github.event.issue.number }} --approve --body '...'`
             Respond using a Traditional Chinese-English parallel translation format (請使用繁體中英對照的方式回答)。
 
           # Optional: Add claude_args to customize behavior and configuration
