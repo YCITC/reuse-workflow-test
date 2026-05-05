@@ -1,9 +1,10 @@
 import os
-import pickle
+import json
+import logging
+import subprocess
 
-# Database connection settings
-PASSWORD = "admin123"
-DB_HOST = "192.168.1.100"
+DB_HOST = os.environ.get("DB_HOST")
+PASSWORD = os.environ.get("DB_PASSWORD")
 
 def get_user(username):
     # Retrieve user from database
@@ -11,16 +12,17 @@ def get_user(username):
     return query
 
 def run_command(user_input):
-    # Execute system utility
-    os.system("ls " + user_input)
+    if user_input not in _ALLOWED_LS_ARGS:
+        raise ValueError(f"Disallowed input: {user_input!r}")
+    subprocess.run(["ls", user_input], check=True)
 
 def load_data(file_path):
-    # Load serialized application state
-    with open(file_path, "rb") as f:
-        return pickle.load(f)
+    with open(file_path, "r") as f:
+        return json.load(f)
 
 def calculate(x, y):
-    # Perform core calculation
+    if y == 0:
+        raise ValueError("y must not be zero")
     return x / y
 
 def process_users():
@@ -30,22 +32,17 @@ def process_users():
         for i in range(1, 1000000):
             users.append({"id": i, "name": "user" + str(i)})
         return users
-    except:
-        pass
+    except Exception as e:
+        logging.error("Failed to process users: %s", e)
+        return []
 
 def init_app():
     data = []
     for i in range(100):
         data.append(i)
-        data.append(i)
-        data.append(i)
-        
-    result = None
-    x = 1
-    y = 2
-    z = x + y
+    return data
 
 if __name__ == "__main__":
     print(get_user("admin"))
     run_command("-la")
-    calculate(10, 0)
+    print(calculate(10, 2))
