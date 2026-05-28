@@ -1,0 +1,44 @@
+name: Parameter Test
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  get-parameters:
+    if: contains(github.event.comment.body, '@test') && github.event.issue.pull_request != null
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context parameters
+        run: |
+          echo "=== Comment ==="
+          echo "comment.id:         ${{ github.event.comment.id }}"
+          echo "comment.body:       ${{ github.event.comment.body }}"
+          echo "comment.user.login: ${{ github.event.comment.user.login }}"
+          echo "comment.html_url:   ${{ github.event.comment.html_url }}"
+
+          echo ""
+          echo "=== Issue / PR ==="
+          echo "issue.number:                  ${{ github.event.issue.number }}"
+          echo "issue.title:                   ${{ github.event.issue.title }}"
+          echo "issue.html_url:                ${{ github.event.issue.html_url }}"
+          echo "issue.state:                   ${{ github.event.issue.state }}"
+          echo "issue.user.login:              ${{ github.event.issue.user.login }}"
+          echo "issue.pull_request (url):      ${{ github.event.issue.pull_request.url }}"
+          echo "issue.pull_request.head.sha:   ${{ github.event.issue.pull_request.head.sha }}"
+          echo "issue.pull_request.merged_at:  ${{ github.event.issue.pull_request.merged_at }}"
+
+          echo ""
+          echo "=== Repository ==="
+          echo "repository.name:      ${{ github.event.repository.name }}"
+          echo "repository.full_name: ${{ github.event.repository.full_name }}"
+          echo "github.repository:    ${{ github.repository }}"
+
+          echo ""
+          echo "=== Workflow run ==="
+          echo "github.run_id:     ${{ github.run_id }}"
+          echo "github.run_number: ${{ github.run_number }}"
+          echo "github.actor:      ${{ github.actor }}"
+          echo "github.sha:        ${{ github.sha }}"
+          echo "github.ref:        ${{ github.ref }}"
+          echo "github.event_name: ${{ github.event_name }}"
