@@ -25,6 +25,7 @@ jobs:
           echo "issue.state:                   ${{ github.event.issue.state }}"
           echo "issue.user.login:              ${{ github.event.issue.user.login }}"
           echo "issue.pull_request (url):      ${{ github.event.issue.pull_request.url }}"
+          echo "issue.pull_request.number:      ${{ github.event.issue.pull_request.number }}"
           echo "issue.pull_request.head.sha:   ${{ github.event.issue.pull_request.head.sha }}"
           echo "issue.pull_request.merged_at:  ${{ github.event.issue.pull_request.merged_at }}"
 
