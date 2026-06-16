@@ -1,0 +1,18 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: YCITC/gemini-code-review@v1
+        with:
+          gemini-api-key: ${{ secrets.GEMINI_API_KEY }}
+          app-id: ${{ secrets.GH_APP_ID }}
+          app-private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
+
